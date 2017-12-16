@@ -6,11 +6,18 @@ module.exports = {
 			autoIncrement: true,	
 			type: Sequelize.INTEGER
 		},
-		buyer_name: {
-			type: Sequelize.STRING
+		user_id: {
+			references: {model: 'user_details', key: 'user_id'},	
+			type: Sequelize.INTEGER
 		},
 		destination: {
 			type: Sequelize.STRING
+		},
+		latitude: {
+			type: Sequelize.FLOAT
+		},
+		longitude: {
+			type: Sequelize.FLOAT
 		},
 		product: {
 			type: Sequelize.STRING

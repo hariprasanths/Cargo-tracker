@@ -1,0 +1,14 @@
+<html>
+<header><title>This is title</title></header>
+<body>
+Hello world32
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+console.log("Hey");
+var socket = io('http://localhost');
+socket.on('connect', function(){
+    console.log("connected to server");
+});
+</script>
+</html>
