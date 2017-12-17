@@ -6,6 +6,9 @@ module.exports = {
 			autoIncrement: true,	
 			type: Sequelize.INTEGER
 		},
+		user_token: {
+			type: Sequelize.STRING
+		},
 		user_name: {
 			type: Sequelize.STRING
 		},

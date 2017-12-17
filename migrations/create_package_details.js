@@ -13,11 +13,26 @@ module.exports = {
 		destination: {
 			type: Sequelize.STRING
 		},
-		latitude: {
+		distance:{
+			type: Sequelize.STRING
+		},
+		time_left: {
+			type: Sequelize.STRING
+		},
+		clat: {
 			type: Sequelize.FLOAT
 		},
-		longitude: {
+		clong: {
 			type: Sequelize.FLOAT
+		},		
+		dlat: {
+			type: Sequelize.FLOAT
+		},
+		dlong: {
+			type: Sequelize.FLOAT
+		},
+		startTime: {
+			type: Sequelize.DATE
 		},
 		product: {
 			type: Sequelize.STRING

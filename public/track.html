@@ -1,14 +1,147 @@
 <html>
-<header><title>This is title</title></header>
+<head>
+<title>Track</title>
+<style>
+      #map{ 
+           height:100%;
+           width:60%%;
+          }
+   </style>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <body>
-Hello world32
-</body>
+  <div class="container-fluid">
+    <div class="row">
+      <div id="driver_details" class="col-sm-4">
+        <img src="truck-driver.jpg" alt="truck-driver" height="250px" width="250px">
+        <h2>John</h2>
+        <h3>Distance Left:</h3>
+        <div id="distance"></div>
+        <br>
+        <h3>ETA:</h3>
+        <div id="time"></div>
+      </div>
+      <div id="map" class="col-sm-8">
+      </div>
+    </div>
+  </div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlZUyVz_JmQln7HGt3knR19IZCYo8T5BE"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script type="text/javascript">
-console.log("Hey");
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script>
+var directionsDisplay;
+var socket=io();
+var map;
+function initMap(lat, long, destinationObj) {
+  var directionsService = new google.maps.DirectionsService();
+  directionsDisplay = new google.maps.DirectionsRenderer();
+  var org = new google.maps.LatLng(lat, long);
+  var des= new google.maps.LatLng(destinationObj.dlat, destinationObj.dlong)
+  var mapOptions = {
+    zoom:7,
+    center: des
+  }
+  //console.log(google.maps);
+  var markerOrg = new google.maps.Marker({
+    position: org,
+    draggable: false,
+    animation: google.maps.Animation.DROP,  
+    map: map,
+  });
+  var markerDes=new google.maps.Marker({
+    position: des,
+    draggable: false,
+    animation: google.maps.Animation.DROP,
+    map: map,
+  });
+  map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  directionsDisplay.setMap(map);
+  markerOrg.setMap(map);
+  markerDes.setMap(map);
+  var start = org;
+  var end = des;
+  var request = {
+    origin: start,
+    destination: end,
+    travelMode: 'DRIVING'
+  };
+  directionsService.route(request, function(result, status) {
+    if (status == 'OK') {
+      directionsDisplay.setDirections(result);
+    }
+  });
+var service = new google.maps.DistanceMatrixService();
+//console.log(service);
+service.getDistanceMatrix(
+  {
+    origins: [org],
+    destinations: [des],
+    travelMode: 'DRIVING',
+   // transitOptions: TransitOptions,
+  //  drivingOptions: DrivingOptions,
+  //  unitSystem: UnitSystem,
+   // avoidHighways: Boolean,
+   // avoidTolls: Boolean,
+  }, callback);
+function callback(response, status) {
+  //console.log(response);
+  if (status == 'OK') {
+    var origins = response.originAddresses;
+    var destinations = response.destinationAddresses;
+    for (var i = 0; i < origins.length; i++) {
+      var results = response.rows[i].elements;
+      for (var j = 0; j < results.length; j++) {
+        var element = results[j];
+        var distance = element.distance.text;
+        var duration = element.duration.text;
+        var from = origins[i];
+        var to = destinations[j];
+      }
+    }
+    var node=document.createTextNode(distance);
+    var p=document.createElement("p");
+    var ele=document.getElementById("distance");
+    p.appendChild(node);
+    ele.appendChild(p);
+    node=document.createTextNode(duration);
+    p=document.createElement("p");
+    ele=document.getElementById("time");
+    p.appendChild(node);
+    ele.appendChild(p);
+  }
+}
+} 
 var socket = io();
+
 socket.on('connect', function(){
     console.log("connected to server");
+
+    socket.emit("startSend",{user_id: 1});
+
+    socket.on('webLoc', function(cood){
+    //  console.log("cood",cood);
+      //  console.log("Calling");
+        function wait() {
+        //    console.log(cood);
+            if(!google) {
+                setTimeout(100, wait());
+            } else {
+          //      console.log(google);
+                initMap(cood.clat, cood.clong,{dlat: cood.dlat, dlong: cood.dlong});
+                setTimeout(3000, function(){
+                  // socket.emit('startSend', {user_id: 1}) 
+                });
+            }
+        }
+        wait();
+    });
 });
 </script>
+</body>
 </html>

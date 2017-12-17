@@ -3,14 +3,14 @@ console.log("Hi");
 var app = express();
 var path=require('path');
 var bodyParser = require('body-parser');
+var models=require('../models');
+var sendResponse=require('./sendRes');
 app.use(bodyParser.urlencoded({ extended: true}));
 
-
-app.get('/', (req, res)=>{
-	res.sendFile(path.join(__dirname,'../public/track.html'));
-});
-app.post('/setUser', (req, res)=>{
-  console.log(req.session.user_id);
-  res.send(req.session.user_id);
+app.post('/',function(req,res){
+	console.log(req.body);
+	// .catch(function(err){
+	// 	console.log(err);
+	// });
 });
 module.exports=app;

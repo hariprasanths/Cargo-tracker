@@ -5,6 +5,9 @@ module.exports = {
 			references: {model: 'package_details', key: 'product_id'},	
 			type: Sequelize.INTEGER
 		},
+		driver_token: {
+			type: Sequelize.STRING
+		},
 		driver_id: {
 			primaryKey: true,
 			autoIncrement: true,	

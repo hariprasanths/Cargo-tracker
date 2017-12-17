@@ -5,6 +5,9 @@ module.exports = (sequelize, DataTypes) => {
 			autoIncrement: true,	
 			type: DataTypes.INTEGER
 		},
+		user_token: {
+			type: DataTypes.STRING
+		},
 		user_name: {
 			type: DataTypes.STRING
 		},

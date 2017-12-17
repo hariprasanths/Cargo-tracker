@@ -5,14 +5,36 @@ module.exports = (sequelize, DataTypes) => {
 			autoIncrement: true,	
 			type: DataTypes.INTEGER
 		},
-		buyer_name: {
-			type: DataTypes.STRING
+		user_id: {
+			references: {model: 'user_details', key: 'user_id'},	
+			type: DataTypes.INTEGER
 		},
 		destination: {
 			type: DataTypes.STRING
 		},
+		clat: {
+			type: DataTypes.FLOAT
+		},
+		clong: {
+			type: DataTypes.FLOAT
+		},		
+		dlat: {
+			type: DataTypes.FLOAT
+		},
+		dlong: {
+			type: DataTypes.FLOAT
+		},
+		startTime: {
+			type: DataTypes.DATE
+		},
 		product: {
 			type: DataTypes.STRING
+		},
+		createdAt: {
+			type: DataTypes.DATE
+		},
+		updatedAt: {
+			type: DataTypes.DATE
 		}
 	});
 
