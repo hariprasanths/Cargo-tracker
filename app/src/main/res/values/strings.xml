@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Truck_Loc</string>
+    <string name="google_maps_key">AIzaSyBlZUyVz_JmQln7HGt3knR19IZCYo8T5BE</string>
+    <string name="title_activity_maps2">Map</string>
 </resources>
