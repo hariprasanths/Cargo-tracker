@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                final Animation myAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce);
+                startJourneyButton.startAnimation(myAnim);
+                MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 10);
+                myAnim.setInterpolator(interpolator);
 
                 email = inputEmail.getText().toString();
                 password = inputPassword.getText().toString();
