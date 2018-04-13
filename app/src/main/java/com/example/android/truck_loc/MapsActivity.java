@@ -97,7 +97,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         socketObject = new JSONObject();
 
 
+        try {
+            socketObject.put("driver_id", driver_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        tv1.setText("            To:" + user_name);
+
+
+        try {
+            socket = IO.socket("http://192.168.43.183:3000/");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         finalLocation = getLatLongFromAddress(address);
         Log.d(TAG, finalLocation.toString());
@@ -336,7 +349,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     });
 
+            try {
+                socketObject.put("dlong",finalLocation.longitude);
+                socketObject.put("dlat",finalLocation.latitude);
+                socketObject.put("clat",currentLocation.latitude);
+                socketObject.put("clong",currentLocation.longitude);
 
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            socket.emit("appLoc",socketObject);
         }
 
         /*String url = getDirectionsUrl(currentLocation, finalLocation);
@@ -402,7 +425,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
 
+        try {
+            socketObject.put("dlong",finalLocation.longitude);
+            socketObject.put("dlat",finalLocation.latitude);
+            socketObject.put("clat",currentLocation.latitude);
+            socketObject.put("clong",currentLocation.longitude);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        socket.emit("appLoc",socketObject);
 
     }
 
